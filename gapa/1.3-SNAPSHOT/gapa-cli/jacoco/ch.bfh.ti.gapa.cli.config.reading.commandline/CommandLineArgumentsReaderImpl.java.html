@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommandLineArgumentsReaderImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.config.reading.commandline</a> &gt; <span class="el_source">CommandLineArgumentsReaderImpl.java</span></div><h1>CommandLineArgumentsReaderImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.config.reading.commandline;
+
+import ch.bfh.ti.gapa.cli.config.reading.file.ConfigFileReader;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReader;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidator;
+import ch.bfh.ti.gapa.cli.config.reading.model.RawInput;
+import org.apache.commons.cli.CommandLine;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+/**
+ * Reads configuration data from the command line arguments.
+ */
+public class CommandLineArgumentsReaderImpl implements CommandLineArgumentsReader {
+
+    private JsonConfigValidator jsonConfigValidator;
+    private JsonReader jsonReader;
+
+<span class="nc" id="L20">    public CommandLineArgumentsReaderImpl(JsonConfigValidator jsonConfigValidator, JsonReader jsonReader) {</span>
+<span class="nc" id="L21">        this.jsonConfigValidator = jsonConfigValidator;</span>
+<span class="nc" id="L22">        this.jsonReader = jsonReader;</span>
+<span class="nc" id="L23">    }</span>
+
+    /**
+     * If the c command line option is given, it's user config file will be read.
+     * The user config file overwrites values from the default config file.
+     * Other command line options overwrite config values from both config files.
+     * @param rawInput A {@link RawInput} instance. Configuration is read into this instance.
+     * @param commandLine An instance of type {@link CommandLine} which contains command line options.
+     */
+    public void read(RawInput rawInput, CommandLine commandLine) {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if(commandLine.hasOption(&quot;c&quot;)) {</span>
+<span class="nc" id="L34">            Path userConfigPath = Paths.get(commandLine.getOptionValue(&quot;c&quot;));</span>
+
+            /*
+             * An anonymous subclass is created which reads the user config file
+             * from the given path.
+             */
+<span class="nc" id="L40">            ConfigFileReader configFileReader = new ConfigFileReader(jsonConfigValidator,jsonReader) {</span>
+                @Override
+                protected Path createConfigFilePath() {
+<span class="nc" id="L43">                    return userConfigPath;</span>
+                }
+            };
+
+            //the file must exist in this case
+<span class="nc" id="L48">            configFileReader.readMandatoryConfigFile(rawInput);</span>
+        }
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(commandLine.hasOption(&quot;w&quot;)) {</span>
+<span class="nc" id="L52">            rawInput.setWebsocketUri(commandLine.getOptionValue(&quot;w&quot;));</span>
+        }
+<span class="nc" id="L54">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

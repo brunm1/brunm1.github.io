@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConfigFileReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.config.reading.file</a> &gt; <span class="el_source">ConfigFileReader.java</span></div><h1>ConfigFileReader.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.config.reading.file;
+
+import ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReader;
+import ch.bfh.ti.gapa.cli.config.reading.model.RawInput;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidator;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.logging.Logger;
+
+/**
+ * Reads a configuration from a valid json file.
+ * This is an abstract class. Subclasses overwrite {@link #createConfigFilePath()}
+ * which creates the path to the config file.
+ */
+public abstract class ConfigFileReader {
+<span class="nc" id="L21">    private static final Logger LOGGER = Logger.getLogger(ConfigFileReader.class.getName());</span>
+    private static final String CONFIG_FILE_NOT_FOUND = &quot;Config file not found: &quot;;
+    private static final String COULD_NOT_BUILD_PATH_TO_CONFIG_FILE = &quot;Could not build path to config file.&quot;;
+    private static final String COULD_NOT_OPEN_CONFIG_FILE_INPUT_STREAM = &quot;Could not open config file input stream.&quot;;
+
+    private JsonConfigValidator configFileValidator;
+    private JsonReader jsonReader;
+
+    /**
+     *
+     * @param jsonConfigValidator validates config file data
+     * @param jsonReader reads config data into {@link RawInput}
+     */
+<span class="nc" id="L34">    protected ConfigFileReader(JsonConfigValidator jsonConfigValidator, JsonReader jsonReader) {</span>
+<span class="nc" id="L35">        this.configFileValidator = jsonConfigValidator;</span>
+<span class="nc" id="L36">        this.jsonReader = jsonReader;</span>
+<span class="nc" id="L37">    }</span>
+
+    private void readConfigFile(RawInput rawInput, boolean optional) {
+<span class="nc" id="L40">        Path configFilePath = getConfigFilePath();</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if(Files.exists(configFilePath)) {</span>
+<span class="nc" id="L43">            InputStream inputStream = getConfigFileInputStream(configFilePath);</span>
+
+            //read and validate config file
+<span class="nc" id="L46">            JSONObject jsonObject = configFileValidator.validate(inputStream);</span>
+
+            //Read from json object into rawInput
+<span class="nc" id="L49">            jsonReader.read(rawInput, jsonObject);</span>
+<span class="nc" id="L50">        } else {</span>
+<span class="nc" id="L51">            String path = configFilePath.toString();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if(optional) {</span>
+<span class="nc" id="L53">                logNonExistingConfigFile(path);</span>
+            } else {
+<span class="nc" id="L55">                throwNonExistingConfigFile(path);</span>
+            }
+        }
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * Reads configuration from valid config file.
+     * Logs a message if the config file does not exist.
+     * @param rawInput Data is read into this instance.
+     */
+    void readOptionalConfigFile(RawInput rawInput) {
+<span class="nc" id="L66">        readConfigFile(rawInput, true);</span>
+<span class="nc" id="L67">    }</span>
+
+    /**
+     * Reads configuration from valid config file.
+     * Throws if config file does not exist.
+     * @param rawInput Data is read into this instance.
+     * @throws IllegalArgumentException if config file does not exist
+     */
+    public void readMandatoryConfigFile(RawInput rawInput) {
+<span class="nc" id="L76">        readConfigFile(rawInput, false);</span>
+<span class="nc" id="L77">    }</span>
+
+    private String createConfigNotFoundMessage(String path) {
+<span class="nc" id="L80">        return CONFIG_FILE_NOT_FOUND +path;</span>
+    }
+
+    private void logNonExistingConfigFile(String path) {
+<span class="nc" id="L84">        LOGGER.info(createConfigNotFoundMessage(path));</span>
+<span class="nc" id="L85">    }</span>
+
+    private void throwNonExistingConfigFile(String path) {
+<span class="nc" id="L88">        throw new IllegalArgumentException(createConfigNotFoundMessage(path));</span>
+    }
+
+    /**
+     * Will be overwritten by subclasses
+     * @return The path to a config file
+     * @throws URISyntaxException if the path could not be built.
+     */
+    protected abstract Path createConfigFilePath() throws URISyntaxException;
+
+    private Path getConfigFilePath() {
+        try {
+<span class="nc" id="L100">            return createConfigFilePath();</span>
+<span class="nc" id="L101">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L102">            throw new RuntimeException(COULD_NOT_BUILD_PATH_TO_CONFIG_FILE, e);</span>
+        }
+    }
+
+    private InputStream getConfigFileInputStream(Path configFilePath) {
+        try {
+<span class="nc" id="L108">            return Files.newInputStream(configFilePath);</span>
+<span class="nc" id="L109">        } catch (IOException e) {</span>
+<span class="nc" id="L110">            throw new RuntimeException(COULD_NOT_OPEN_CONFIG_FILE_INPUT_STREAM, e);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

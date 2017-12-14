@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CliImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli</a> &gt; <span class="el_source">CliImpl.java</span></div><h1>CliImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli;
+
+import ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReader;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReaderImpl;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidator;
+import ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidatorImpl;
+import ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReader;
+import ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReaderImpl;
+import ch.bfh.ti.gapa.cli.config.reading.file.DefaultConfigFileReader;
+import ch.bfh.ti.gapa.cli.config.reading.file.DefaultConfigFileReaderImpl;
+import ch.bfh.ti.gapa.cli.config.parsing.RawInputParser;
+import ch.bfh.ti.gapa.cli.config.parsing.RawInputParserImpl;
+import ch.bfh.ti.gapa.cli.config.reading.model.RawInput;
+import ch.bfh.ti.gapa.cli.exception.CommandLineException;
+import ch.bfh.ti.gapa.cli.exception.CommandLineExceptionType;
+import ch.bfh.ti.gapa.cli.printer.InfoPrinter;
+import ch.bfh.ti.gapa.process.interfaces.Input;
+import ch.bfh.ti.gapa.process.interfaces.ProcessLayer;
+import ch.bfh.ti.gapa.process.interfaces.ProcessLayerImpl;
+import org.apache.commons.cli.*;
+
+import java.io.IOException;
+import java.util.stream.Collectors;
+
+/**
+ * Main entry point for the application.
+ * Parses command line arguments, loads configuration data and
+ * passes the configuration to the process layer.
+ */
+public class CliImpl implements Cli{
+    private ProcessLayer processLayer;
+    private DefaultConfigFileReader defaultConfigFileReader;
+    private CommandLineArgumentsReader commandLineArgumentsReader;
+    private RawInputParser rawInputParser;
+    private InfoPrinter infoPrinter;
+    private CliOptions cliOptions;
+    private InputSupplier inputSupplier;
+
+    /**
+     * @param processLayer read config data is passed to the process layer
+     * @param defaultConfigFileReader reads the default config file
+     * @param commandLineArgumentsReader reads configuration from command line arguments
+     * @param rawInputParser parses read config data
+     * @param infoPrinter prints data to stdout
+     * @param cliOptions contains allowed command line options
+     * @param inputSupplier used to request input from the user
+     */
+    public CliImpl(ProcessLayer processLayer, DefaultConfigFileReader defaultConfigFileReader,
+                   CommandLineArgumentsReader commandLineArgumentsReader,
+                   RawInputParser rawInputParser, InfoPrinter infoPrinter,
+<span class="fc" id="L51">                   CliOptions cliOptions, InputSupplier inputSupplier) {</span>
+<span class="fc" id="L52">        this.processLayer = processLayer;</span>
+<span class="fc" id="L53">        this.defaultConfigFileReader = defaultConfigFileReader;</span>
+<span class="fc" id="L54">        this.commandLineArgumentsReader = commandLineArgumentsReader;</span>
+<span class="fc" id="L55">        this.rawInputParser = rawInputParser;</span>
+<span class="fc" id="L56">        this.infoPrinter = infoPrinter;</span>
+<span class="fc" id="L57">        this.cliOptions = cliOptions;</span>
+<span class="fc" id="L58">        this.inputSupplier = inputSupplier;</span>
+<span class="fc" id="L59">    }</span>
+
+    /**
+     * Create CliImpl with default dependencies
+     */
+<span class="nc" id="L64">    public CliImpl() {</span>
+<span class="nc" id="L65">        ProcessLayer processLayer = new ProcessLayerImpl();</span>
+<span class="nc" id="L66">        JsonConfigValidator jsonConfigValidator = new JsonConfigValidatorImpl();</span>
+<span class="nc" id="L67">        JsonReader jsonReader = new JsonReaderImpl();</span>
+<span class="nc" id="L68">        RawInputParser rawInputParser = new RawInputParserImpl();</span>
+
+<span class="nc" id="L70">        DefaultConfigFileReader defaultConfigFileReader = new DefaultConfigFileReaderImpl(</span>
+                jsonConfigValidator, jsonReader
+        );
+
+<span class="nc" id="L74">        CommandLineArgumentsReaderImpl commandLineArgumentsReader = new CommandLineArgumentsReaderImpl(</span>
+                jsonConfigValidator,
+                jsonReader
+        );
+
+<span class="nc" id="L79">        CliOptions cliOptions = new CliOptions();</span>
+
+<span class="nc" id="L81">        InfoPrinter infoPrinter = new InfoPrinter(cliOptions);</span>
+
+<span class="nc" id="L83">        this.processLayer = processLayer;</span>
+<span class="nc" id="L84">        this.defaultConfigFileReader = defaultConfigFileReader;</span>
+<span class="nc" id="L85">        this.commandLineArgumentsReader = commandLineArgumentsReader;</span>
+<span class="nc" id="L86">        this.rawInputParser = rawInputParser;</span>
+<span class="nc" id="L87">        this.infoPrinter = infoPrinter;</span>
+<span class="nc" id="L88">        this.cliOptions = cliOptions;</span>
+<span class="nc" id="L89">        this.inputSupplier = () -&gt; {</span>
+            try {
+<span class="nc" id="L91">                System.in.read();</span>
+<span class="nc" id="L92">            } catch (IOException e) {</span>
+                //TODO handle input exception meaningful
+<span class="nc" id="L94">                e.printStackTrace();</span>
+<span class="nc" id="L95">            }</span>
+<span class="nc" id="L96">            return &quot;&quot;;</span>
+        };
+<span class="nc" id="L98">    }</span>
+
+    /**
+     * Runs the logic on the given arguments.
+     * @param args command line arguments
+     * @return exit code
+     */
+    public int run(String[] args) {
+        try {
+            try {
+<span class="fc" id="L108">                DefaultParser defaultParser = new DefaultParser();</span>
+<span class="fc" id="L109">                CommandLine commandLine = defaultParser.parse(cliOptions, args);</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">                if (commandLine.hasOption(&quot;h&quot;)) {</span>
+<span class="fc" id="L112">                    infoPrinter.printHelp();</span>
+<span class="fc" id="L113">                    return 0;</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">                } else if(commandLine.hasOption(&quot;v&quot;)) {</span>
+                    try {
+<span class="nc" id="L116">                        infoPrinter.printVersion();</span>
+<span class="nc" id="L117">                        return 0;</span>
+<span class="nc" id="L118">                    } catch (Throwable t) {</span>
+<span class="nc" id="L119">                        throw new CommandLineException(CommandLineExceptionType.PRINT_VERSION_FAILED, t);</span>
+                    }
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">                } else if(commandLine.hasOption(&quot;s&quot;)) {</span>
+                    try {
+<span class="nc" id="L123">                        infoPrinter.printConfigSchema();</span>
+<span class="nc" id="L124">                        return 0;</span>
+<span class="nc" id="L125">                    } catch (Throwable t) {</span>
+<span class="nc" id="L126">                        throw new CommandLineException(CommandLineExceptionType.PRINT_CONFIG_SCHEMA_FAILED, t);</span>
+                    }
+                } else {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">                    if (commandLine.getArgs().length &gt; 0) {</span>
+<span class="fc" id="L130">                        Exception e = new Exception(&quot;Unrecognized arguments: &quot; + commandLine.getArgList()</span>
+<span class="fc" id="L131">                                .stream().collect(Collectors.joining(&quot;, &quot;)));</span>
+<span class="fc" id="L132">                        throw new CommandLineException(CommandLineExceptionType.UNRECOGNIZED_ARGUMENTS, e);</span>
+                    }
+
+                    //The RawInput instance stores all configuration that is read in from the default
+                    //config file, the user given config file and the command line arguments.
+<span class="fc" id="L137">                    RawInput rawInput = new RawInput();</span>
+
+                    try {
+<span class="fc" id="L140">                        defaultConfigFileReader.read(rawInput);</span>
+<span class="nc" id="L141">                    } catch (Throwable t) {</span>
+<span class="nc" id="L142">                        throw new CommandLineException(CommandLineExceptionType.DEFAULT_CONFIG_READING_FAILED, t);</span>
+<span class="fc" id="L143">                    }</span>
+
+                    try {
+<span class="fc" id="L146">                        commandLineArgumentsReader.read(rawInput, commandLine);</span>
+<span class="nc" id="L147">                    } catch (Throwable t) {</span>
+<span class="nc" id="L148">                        throw new CommandLineException(CommandLineExceptionType.COMMAND_LINE_CONFIG_READING_FAILED, t);</span>
+<span class="fc" id="L149">                    }</span>
+
+<span class="fc" id="L151">                    Input input = new Input();</span>
+                    try {
+<span class="fc" id="L153">                        rawInputParser.parse(rawInput, input);</span>
+<span class="nc" id="L154">                    } catch (Throwable t) {</span>
+<span class="nc" id="L155">                        throw new CommandLineException(CommandLineExceptionType.CONFIG_PARSING_FAILED, t);</span>
+<span class="fc" id="L156">                    }</span>
+
+                    //TODO additional validation step to avoid nullpointers (websocket has to be present)
+
+                    try {
+<span class="fc" id="L161">                        processLayer.startRecording(input);</span>
+
+                        //wait until user gives input
+<span class="fc" id="L164">                        inputSupplier.requestInput();</span>
+
+                        //stop recording
+<span class="fc" id="L167">                        String plantUmlDiagram = processLayer.stopRecording();</span>
+<span class="fc" id="L168">                        System.out.println(plantUmlDiagram);</span>
+<span class="nc" id="L169">                    } catch (Throwable t) {</span>
+<span class="nc" id="L170">                        throw new CommandLineException(CommandLineExceptionType.PROCESS_LOGIC_FAILED, t);</span>
+<span class="fc" id="L171">                    }</span>
+                }
+<span class="fc" id="L173">            } catch (ParseException e) {</span>
+<span class="fc" id="L174">                throw new CommandLineException(CommandLineExceptionType.INVALID_COMMAND_USAGE, e);</span>
+<span class="fc" id="L175">            }</span>
+<span class="fc" id="L176">        } catch (CommandLineException e) {</span>
+            //Print exception message and return exit code.
+<span class="fc" id="L178">            infoPrinter.printCommandLineException(e);</span>
+<span class="fc" id="L179">            return e.getCommandLineExceptionType().getCode();</span>
+<span class="fc" id="L180">        }</span>
+<span class="fc" id="L181">        return 0;</span>
+    }
+
+    /**
+     * Runs the CLI with the given arguments and exits the application with an exit code.
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+<span class="nc" id="L189">        int exitCode = new CliImpl().run(args);</span>
+
+<span class="nc" id="L191">        System.exit(exitCode);</span>
+<span class="nc" id="L192">    }</span>
+
+    public ProcessLayer getProcessLayer() {
+<span class="nc" id="L195">        return processLayer;</span>
+    }
+
+    public void setProcessLayer(ProcessLayer processLayer) {
+<span class="nc" id="L199">        this.processLayer = processLayer;</span>
+<span class="nc" id="L200">    }</span>
+
+    public DefaultConfigFileReader getDefaultConfigFileReader() {
+<span class="nc" id="L203">        return defaultConfigFileReader;</span>
+    }
+
+    public void setDefaultConfigFileReader(DefaultConfigFileReader defaultConfigFileReader) {
+<span class="nc" id="L207">        this.defaultConfigFileReader = defaultConfigFileReader;</span>
+<span class="nc" id="L208">    }</span>
+
+    public CommandLineArgumentsReader getCommandLineArgumentsReader() {
+<span class="nc" id="L211">        return commandLineArgumentsReader;</span>
+    }
+
+    public void setCommandLineArgumentsReader(CommandLineArgumentsReader commandLineArgumentsReader) {
+<span class="nc" id="L215">        this.commandLineArgumentsReader = commandLineArgumentsReader;</span>
+<span class="nc" id="L216">    }</span>
+
+    public RawInputParser getRawInputParser() {
+<span class="nc" id="L219">        return rawInputParser;</span>
+    }
+
+    public void setRawInputParser(RawInputParser rawInputParser) {
+<span class="nc" id="L223">        this.rawInputParser = rawInputParser;</span>
+<span class="nc" id="L224">    }</span>
+
+    public InfoPrinter getInfoPrinter() {
+<span class="nc" id="L227">        return infoPrinter;</span>
+    }
+
+    public void setInfoPrinter(InfoPrinter infoPrinter) {
+<span class="nc" id="L231">        this.infoPrinter = infoPrinter;</span>
+<span class="nc" id="L232">    }</span>
+
+    public CliOptions getCliOptions() {
+<span class="nc" id="L235">        return cliOptions;</span>
+    }
+
+    public void setCliOptions(CliOptions cliOptions) {
+<span class="nc" id="L239">        this.cliOptions = cliOptions;</span>
+<span class="nc" id="L240">    }</span>
+
+    public InputSupplier getInputSupplier() {
+<span class="nc" id="L243">        return inputSupplier;</span>
+    }
+
+    public void setInputSupplier(InputSupplier inputSupplier) {
+<span class="nc" id="L247">        this.inputSupplier = inputSupplier;</span>
+<span class="nc" id="L248">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

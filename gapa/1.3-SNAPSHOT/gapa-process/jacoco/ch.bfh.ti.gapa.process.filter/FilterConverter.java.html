@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilterConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.filter</a> &gt; <span class="el_source">FilterConverter.java</span></div><h1>FilterConverter.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.filter;
+
+import ch.bfh.ti.gapa.domain.recording.Record;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+<span class="nc" id="L15">public class FilterConverter {</span>
+    private static Schema schema;
+
+    static {
+<span class="fc" id="L19">        InputStream inputStream = FilterConverter.class.getResourceAsStream(&quot;/FilterArray.json&quot;);</span>
+<span class="fc" id="L20">        JSONObject o = new JSONObject(new JSONTokener(inputStream));</span>
+<span class="fc" id="L21">        schema = SchemaLoader.load(o);</span>
+<span class="fc" id="L22">    }</span>
+
+    public static List&lt;Predicate&lt;Record&gt;&gt; convert(JSONArray jsonArray) {
+<span class="fc" id="L25">        schema.validate(jsonArray);</span>
+
+<span class="fc" id="L27">        ArrayList&lt;Predicate&lt;Record&gt;&gt; filters = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for(int i=0; i&lt;jsonArray.length(); i++) {</span>
+<span class="fc" id="L29">            filters.add(convertToFilter(jsonArray.getJSONObject(i)));</span>
+        }
+<span class="fc" id="L31">        return filters;</span>
+    }
+
+    public static Predicate&lt;Record&gt;  convertToFilter(JSONObject filterJson) {
+<span class="pc bpc" id="L35" title="4 of 18 branches missed.">        switch (filterJson.getString(&quot;type&quot;)) {</span>
+            case &quot;genericRegexFilter&quot;:
+<span class="fc" id="L37">                return new GenericRegexFilter(filterJson);</span>
+            case &quot;timeFilter&quot;:
+<span class="fc" id="L39">                return new TimeFilter(filterJson);</span>
+            case &quot;andFilter&quot;:
+<span class="fc" id="L41">                return new AndFilter(filterJson);</span>
+            case &quot;orFilter&quot;:
+<span class="fc" id="L43">                return new OrFilter(filterJson);</span>
+            default:
+<span class="fc" id="L45">                throw new IllegalArgumentException(&quot;Unsupported filter type \&quot;&quot; + filterJson.getString(&quot;type&quot;) + &quot;\&quot;&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

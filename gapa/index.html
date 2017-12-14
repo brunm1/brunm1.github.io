@@ -7,19 +7,50 @@
   <body>
     <h1>Projekt1 Deliverables / Prüfobjekte</h1>
     <h2>Anforderungsspezifikation gemäss Template</h2>
+    <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Anforderungsdokument.md">Aktuellstes
+      Anforderungsdokument im MarkDown Format</a>
+    <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Alternative%20Formate/Anforderungsdokument_Adrian_Aulbach_Marc_Br%C3%BCnisholz_Gapa.pdf">Anforderungsdokument
+    im PDF Format (nicht unbedingt aktuell)</a>
     <h2>Planung</h2>
     <h3>Produktstrukturplan / Ergebnisliste</h3>
+    <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/Produktstruktur%20GAPA.png">Produktstrukturplan
+    als MindMap</a>
     <h3>Projektstrukturplan / Arbeitspakete</h3>
+    <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/Planung%20Projektstrukturplan.png?raw=true">Projektstrukturplan
+      auf Zeitlinie</a>
     <h3>Aufwandschätzung</h3>
+    <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/sprint_planning.md">Sprint Planning</a>
     <h3>Meilensteinplan</h3>
+    Meilensteine sind im <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/sprint_planning.md">Sprint
+      Planning</a> ersichtlich.
     <h2>Controlling</h2>
     <h3>Soll/Ist-Vergleich Aufwand und Termine</h3>
+    Wir haben
+    im <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/sprint_planning.md">Sprint
+      Planning</a> für die Tasks Aufwände geschätzt und
+    eingetragen. Nicht erledigte Tasks haben wir markiert und neu eingeplant
     <h2>Architektur</h2>
     <h3>Systemabgrenzung / Umgebung / externe Schnittstellen</h3>
+    Gapa verbindet sich auf einen Websocket-Server. Die Nachrichten
+    werden über JSON an Gapa verschickt. Die Struktur der Nachrichten
+    ist in einem JSON Schema definiert. Das Modul gapa-integration
+    enthält Code, um Nachrichten von Java Objekten zu JSON und zurück
+    zu konvertieren. Daher kann es auf Client- wie auch Server-Seite
+    eingesetzt werden, um Nachrichten richtig codiert zu senden und
+    beim Empfänger (Gapa) korrekt zu decodieren.
+    <a href="https://github.com/brunm1/visualization_gateleen/blob/master/gapa-integration/README.md">Aktuellstes
+    Readme des gapa-integration Moduls</a>. Die Systemabgrenzung ist
+    im <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Anforderungsdokument.md#4-systemabgrenzung">Anforderungsdokument
+    unter Systemabgrenzung</a>
+    genauer beschrieben.
     <h3>Innere Struktur / interne Schnittstellen</h3>
-    <a href="1.3-SNAPSHOT/javadoc">JavaDoc</a>
+    <a href="1.3-SNAPSHOT/javadoc">JavaDoc</a> der Klassen und
+    Interfaces der verwendeten Module gapa-cli, gapa-integration, gapa-process und
+    gapa-domain. Einführende Informationen sind in den entsprechenden
+    Readmes der Module zu finden. <a href="https://github.com/brunm1/visualization_gateleen/blob/master/README.md">Haupt-Readme</a>
     <h2>Testdokumentation</h2>
     <h3>Testfälle</h3>
+    TODO: JavaDoc der 
     <h3>Testergebnisse</h3>
     <h2>Source-Code</h2>
     <h3>Kommentiert</h3>

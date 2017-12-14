@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimeFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.filter</a> &gt; <span class="el_source">TimeFilter.java</span></div><h1>TimeFilter.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.filter;
+
+import ch.bfh.ti.gapa.domain.recording.Record;
+import ch.bfh.ti.gapa.process.resources.ResourceReader;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.function.Predicate;
+
+public class TimeFilter implements Predicate&lt;Record&gt; {
+    private final static Schema schema;
+    String name;
+    LocalDateTime time;
+<span class="fc" id="L21">    boolean before = false;</span>
+
+    static {
+<span class="fc" id="L24">        String schemaString = &quot;&quot;;</span>
+        try {
+<span class="fc" id="L26">            schemaString = ResourceReader.readStringFromResource(&quot;/TimeFilter.json&quot;);</span>
+
+<span class="nc" id="L28">        } catch (IOException e) {</span>
+<span class="nc" id="L29">            e.printStackTrace();</span>
+<span class="fc" id="L30">        }</span>
+<span class="fc" id="L31">        JSONObject o = new JSONObject(new JSONTokener(schemaString));</span>
+<span class="fc" id="L32">        schema = SchemaLoader.load(o);</span>
+<span class="fc" id="L33">    }</span>
+
+<span class="fc" id="L35">    TimeFilter(JSONObject filterJson) {</span>
+        try {
+<span class="fc" id="L37">            schema.validate(filterJson);</span>
+<span class="fc" id="L38">            name = filterJson.optString(&quot;name&quot;, &quot;&quot;);</span>
+<span class="fc" id="L39">            before = filterJson.optBoolean(&quot;before&quot;);</span>
+<span class="fc" id="L40">            time =  LocalDateTime.parse(filterJson.getString(&quot;time&quot;), DateTimeFormatter.ISO_DATE_TIME);</span>
+<span class="nc" id="L41">        } catch (ValidationException e) {</span>
+            //ToDo
+<span class="nc" id="L43">            e.printStackTrace();</span>
+<span class="nc" id="L44">        } catch (DateTimeParseException e) {</span>
+<span class="nc" id="L45">            e.printStackTrace();</span>
+            //Todo: remove now() as default?
+<span class="nc" id="L47">            time = LocalDateTime.now();</span>
+<span class="pc" id="L48">        }</span>
+<span class="fc" id="L49">    }</span>
+
+    @Override
+    public boolean test(Record record) {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if(before) {</span>
+<span class="fc" id="L54">            return record.getTime().isBefore(time);</span>
+        } else {
+<span class="fc" id="L56">            return record.getTime().isAfter(time);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

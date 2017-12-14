@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecordParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.recording</a> &gt; <span class="el_source">RecordParser.java</span></div><h1>RecordParser.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.recording;
+
+import ch.bfh.ti.gapa.domain.recording.Record;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static ch.bfh.ti.gapa.process.recording.InboundRequestPatternGroup.*;
+
+/**
+ * Created by adrian on 20.10.17.
+ */
+public class RecordParser {
+    private Pattern logPattern;
+    private Pattern urlPattern;
+    private DateTimeFormatter timeFormat;
+
+<span class="fc" id="L21">    public RecordParser(Pattern logPattern, Pattern urlPattern, DateTimeFormatter timeFormat) {</span>
+<span class="fc" id="L22">        this.logPattern = logPattern;</span>
+<span class="fc" id="L23">        this.urlPattern = urlPattern;</span>
+<span class="fc" id="L24">        this.timeFormat = timeFormat;</span>
+<span class="fc" id="L25">    }</span>
+
+    public Record parse(String logEntry) {
+<span class="fc" id="L28">        Matcher matcher = logPattern.matcher(logEntry);</span>
+
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if(matcher.find()) {</span>
+<span class="fc" id="L31">            String dateString = matcher.group(DATE.getName());</span>
+<span class="fc" id="L32">            LocalDateTime time = LocalDateTime.parse(dateString, timeFormat);</span>
+<span class="fc" id="L33">            String httpMethod = matcher.group(METHOD.getName());</span>
+<span class="fc" id="L34">            String targetUrl = matcher.group(URL.getName());</span>
+<span class="fc" id="L35">            String sender = matcher.group(SENDER.getName());</span>
+
+<span class="fc" id="L37">            Record record = new Record();</span>
+
+<span class="fc" id="L39">            Matcher targetMatcher = urlPattern.matcher(targetUrl);</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            if(targetMatcher.find()) {</span>
+<span class="fc" id="L41">                String target = targetMatcher.group(&quot;target&quot;);</span>
+<span class="fc" id="L42">                record.setRecipient(target);</span>
+<span class="fc" id="L43">            } else {</span>
+<span class="nc" id="L44">                record.setRecipient(null);</span>
+            }
+<span class="fc" id="L46">            record.setUrl(targetUrl);</span>
+<span class="fc" id="L47">            record.setSender(sender);</span>
+<span class="fc" id="L48">            record.setTime(time);</span>
+<span class="fc" id="L49">            record.setHttpMethod(httpMethod);</span>
+
+<span class="fc" id="L51">            return record;</span>
+        } else {
+<span class="nc" id="L53">            return null;</span>
+        }
+    }
+
+    public List&lt;Record&gt; batchParse(String log) {
+<span class="fc" id="L58">        List&lt;Record&gt; records = new ArrayList&lt;&gt;();</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        Arrays.stream(log.split(System.lineSeparator())).map(this::parse).filter(r -&gt; r != null).forEach(records::add);</span>
+
+<span class="fc" id="L62">        return records;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

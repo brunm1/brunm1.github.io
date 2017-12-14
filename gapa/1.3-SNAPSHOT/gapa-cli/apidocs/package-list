@@ -1,0 +1,9 @@
+ch.bfh.ti.gapa.cli
+ch.bfh.ti.gapa.cli.config.parsing
+ch.bfh.ti.gapa.cli.config.reading.commandline
+ch.bfh.ti.gapa.cli.config.reading.file
+ch.bfh.ti.gapa.cli.config.reading.file.json
+ch.bfh.ti.gapa.cli.config.reading.file.json.validation
+ch.bfh.ti.gapa.cli.config.reading.model
+ch.bfh.ti.gapa.cli.exception
+ch.bfh.ti.gapa.cli.printer
