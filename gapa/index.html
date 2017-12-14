@@ -3,18 +3,27 @@
   <head>
     <meta charset="utf8">
     <title>Projekt 1 Deliverables / Prüfobjekte</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
+  </body>
+  <div class="container">
     <h1>Projekt1 Deliverables / Prüfobjekte</h1>
+    Grundsätzlich haben wir den Source-Code
+    auf <a href="https://github.com/brunm1/visualization_gateleen">https://github.com/brunm1/visualization_gateleen</a>,
+    das Project Management
+    auf <a href="https://github.com/brunm1/project_1_private">https://github.com/brunm1/project_1_private</a>,
+    die Übersicht über die Deliverables hier und generierte
+    Zusatzinhalte auf <a href="https://brunm1.github.io/gapa/${version}/index.html">https://brunm1.github.io/gapa/${version}/index.html</a>.
     <h2>Anforderungsspezifikation gemäss Template</h2>
     <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Anforderungsdokument.md">Aktuellstes
       Anforderungsdokument im MarkDown Format</a>
     <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Alternative%20Formate/Anforderungsdokument_Adrian_Aulbach_Marc_Br%C3%BCnisholz_Gapa.pdf">Anforderungsdokument
-    im PDF Format (nicht unbedingt aktuell)</a>
+      im PDF Format (nicht unbedingt aktuell)</a>
     <h2>Planung</h2>
     <h3>Produktstrukturplan / Ergebnisliste</h3>
     <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/Produktstruktur%20GAPA.png">Produktstrukturplan
-    als MindMap</a>
+      als MindMap</a>
     <h3>Projektstrukturplan / Arbeitspakete</h3>
     <a href="https://github.com/brunm1/project_1_private/blob/master/Planung/Planung%20Projektstrukturplan.png?raw=true">Projektstrukturplan
       auf Zeitlinie</a>
@@ -39,22 +48,50 @@
     eingesetzt werden, um Nachrichten richtig codiert zu senden und
     beim Empfänger (Gapa) korrekt zu decodieren.
     <a href="https://github.com/brunm1/visualization_gateleen/blob/master/gapa-integration/README.md">Aktuellstes
-    Readme des gapa-integration Moduls</a>. Die Systemabgrenzung ist
+      Readme des gapa-integration Moduls</a>. Die Systemabgrenzung ist
     im <a href="https://github.com/brunm1/project_1_private/blob/master/Anforderungen/Anforderungsdokument/Anforderungsdokument.md#4-systemabgrenzung">Anforderungsdokument
-    unter Systemabgrenzung</a>
+      unter Systemabgrenzung</a>
     genauer beschrieben.
     <h3>Innere Struktur / interne Schnittstellen</h3>
-    <a href="1.3-SNAPSHOT/javadoc">JavaDoc</a> der Klassen und
+    <a href="${version}/apidocs/index.html">JavaDoc</a> der Klassen und
     Interfaces der verwendeten Module gapa-cli, gapa-integration, gapa-process und
     gapa-domain. Einführende Informationen sind in den entsprechenden
     Readmes der Module zu finden. <a href="https://github.com/brunm1/visualization_gateleen/blob/master/README.md">Haupt-Readme</a>
     <h2>Testdokumentation</h2>
     <h3>Testfälle</h3>
-    TODO: JavaDoc der 
+    Die Tests werden mit JavaDoc Kommentaren beschrieben, die in der <a href="${version}/testapidocs/index.html">Test
+      JavaDoc</a> eingesehen werden können.
     <h3>Testergebnisse</h3>
+    Die Tests werden automatisiert ausgeführt. Die Ergebnisse sind im
+    <a href="${version}/surefire-report.html">Test Report</a> zu
+    finden.
+    Die Code Coverage ist pro Modul erfasst. Z.B.
+    im <a href="${version}/gapa-process/jacoco/index.html">gapa-process</a> Modul.
     <h2>Source-Code</h2>
+    Der aktuellste Stand ist immer im master Branch des GIT
+    Repos <a href="https://github.com/brunm1/visualization_gateleen">https://github.com/brunm1/visualization_gateleen</a>
+    zu finden. Links auf bestimmte Code-Zeilen können
+    über <a href="${version}/xref/index.html">XREF</a> (<a href="${version}/xref-test/index.html">XREF für Tests</a>) erstellt werden.
     <h3>Kommentiert</h3>
+    Siehe JavaDoc Kommentare im Source Code oder
+    im <a href="${version}/apidocs/index.html">JavaDoc</a>.
+    <h3>Software-Qualität</h3>
+    Wir haben die Code Inspection
+    Tools <a href="${version}/checkstyle-aggregate.html">checkstyle</a> (aggregiert)
+    und <a href="${version}/gapa-process/pmd.html">PMD</a> (pro Modul) in der Standardeinstellung
+    ausgeführt. Geplant ist auch noch die Ausführung von Sonar. In
+    welchem Umfang die gemeldeten Probleme gelöst werden, definieren
+    wir noch.
     <h2>Projektabschlussbericht</h2>
-  </body>
+    TODO
+    <h2>Präsentation</h2>
+    TODO
+  </div>
+</body>
+<script type="text/javascript">
+  document.body.innerHTML =
+  document.body.innerHTML.replace(/\$\{version\}/g,'1.3-SNAPSHOT');
+  
+</script>
 </html>
 
