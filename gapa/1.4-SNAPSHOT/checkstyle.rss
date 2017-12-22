@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<rss version="0.91">
+  <channel>
+    <title>gapa - Checkstyle report</title>
+    <link>https://brunm1.github.io/gapa/1.4-SNAPSHOT</link>
+    <description>gapa - Checkstyle report</description>
+    <language>en-us</language>
+    <copyright>&#169;2017</copyright>
+    <item>
+      <title>File: 69,
+             Errors: 1019,
+             Warnings: 0,
+             Infos: 0
+      </title>
+            <link>https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html</link>
+      <description>
+        <p>Click <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html">here</a> for the full Checkstyle report.</p>
+
+        <table summary="Files" boder="1">
+          <thead>
+            <tr>
+              <th>Files</th>
+              <th style="width:30px;"><abbr title="Info">I</abbr></th>
+              <th style="width:30px;"><abbr title="Warning">W</abbr></th>
+              <th style="width:30px;"><abbr title="Error">E</abbr></th>
+            </tr>
+          </thead>
+          <tbody>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.recording.GapaMessageRecorder.java">ch/bfh/ti/gapa/process/recording/GapaMessageRecorder.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.AndFilter.java">ch/bfh/ti/gapa/process/filter/AndFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  14
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReader.java">ch/bfh/ti/gapa/cli/config/reading/file/json/JsonReader.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.ConfigFileReader.java">ch/bfh/ti/gapa/cli/config/reading/file/ConfigFileReader.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidatorImpl.java">ch/bfh/ti/gapa/cli/config/reading/file/json/validation/JsonConfigValidatorImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.diagram.SequenceDiagramMessage.java">ch/bfh/ti/gapa/process/diagram/SequenceDiagramMessage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.exception.CommandLineException.java">ch/bfh/ti/gapa/cli/exception/CommandLineException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.reader.StreamRedirection.java">ch/bfh/ti/gapa/process/reader/StreamRedirection.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.exception.CommandLineExceptionType.java">ch/bfh/ti/gapa/cli/exception/CommandLineExceptionType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.interfaces.ProcessLayerImpl.java">ch/bfh/ti/gapa/process/interfaces/ProcessLayerImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  46
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.printer.CliPrintOptions.java">ch/bfh/ti/gapa/cli/printer/CliPrintOptions.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.exception.GapaCommandLineExceptionType.java">ch/bfh/ti/gapa/cli/exception/GapaCommandLineExceptionType.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.converter.JsonToGapaMessageConverter.java">ch/bfh/ti/gapa/integration/client/converter/JsonToGapaMessageConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStreamImpl.java">ch/bfh/ti/gapa/cli/stdin/NonBlockingInputStreamImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.socket.StringReceiver.java">ch/bfh/ti/gapa/integration/client/socket/StringReceiver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.resources.ResourceReader.java">ch/bfh/ti/gapa/process/resources/ResourceReader.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.reader.StringFromInputStreamReader.java">ch/bfh/ti/gapa/process/reader/StringFromInputStreamReader.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.recording.InboundRequestPatternGroup.java">ch/bfh/ti/gapa/process/recording/InboundRequestPatternGroup.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReaderImpl.java">ch/bfh/ti/gapa/cli/config/reading/commandline/CommandLineArgumentsReaderImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.converter.GapaMessageJsonField.java">ch/bfh/ti/gapa/integration/converter/GapaMessageJsonField.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.Cli.java">ch/bfh/ti/gapa/cli/Cli.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.server.converter.JsonSender.java">ch/bfh/ti/gapa/integration/server/converter/JsonSender.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.printer.GapaInfoPrinter.java">ch/bfh/ti/gapa/cli/printer/GapaInfoPrinter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.domain.recording.Filter.java">ch/bfh/ti/gapa/domain/recording/Filter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.OrFilter.java">ch/bfh/ti/gapa/process/filter/OrFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.CliImpl.java">ch/bfh/ti/gapa/cli/CliImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  105
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.CliConfigOptions.java">ch/bfh/ti/gapa/cli/config/CliConfigOptions.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.json.validation.JsonConfigValidator.java">ch/bfh/ti/gapa/cli/config/reading/file/json/validation/JsonConfigValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.socket.GapaWebSocketClientHandler.java">ch/bfh/ti/gapa/integration/client/socket/GapaWebSocketClientHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.AsyncTask.java">ch/bfh/ti/gapa/process/AsyncTask.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.domain.recording.Subset.java">ch/bfh/ti/gapa/domain/recording/Subset.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.validation.JsonReceiver.java">ch/bfh/ti/gapa/integration/client/validation/JsonReceiver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.FilterConverter.java">ch/bfh/ti/gapa/process/filter/FilterConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStreamHandler.java">ch/bfh/ti/gapa/cli/stdin/NonBlockingInputStreamHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.SynchronizedTask.java">ch/bfh/ti/gapa/process/SynchronizedTask.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  29
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.parsing.CliInputParser.java">ch/bfh/ti/gapa/cli/config/parsing/CliInputParser.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.server.converter.GapaMessageToJsonConverter.java">ch/bfh/ti/gapa/integration/server/converter/GapaMessageToJsonConverter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.socket.GapaWebSocketClient.java">ch/bfh/ti/gapa/integration/client/socket/GapaWebSocketClient.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.AsyncTaskHandler.java">ch/bfh/ti/gapa/process/AsyncTaskHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.printer.InfoPrinterImpl.java">ch/bfh/ti/gapa/cli/printer/InfoPrinterImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  67
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStream.java">ch/bfh/ti/gapa/cli/stdin/NonBlockingInputStream.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.converter.GapaMessageReceiver.java">ch/bfh/ti/gapa/integration/client/converter/GapaMessageReceiver.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.log.SlimFormatter.java">ch/bfh/ti/gapa/cli/log/SlimFormatter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#app.properties">app.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.domain.recording.Record.java">ch/bfh/ti/gapa/domain/recording/Record.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  38
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.parsing.CliInputParseException.java">ch/bfh/ti/gapa/cli/config/parsing/CliInputParseException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.model.ConfigField.java">ch/bfh/ti/gapa/cli/config/model/ConfigField.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.Client.java">ch/bfh/ti/gapa/integration/client/Client.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.interfaces.ProcessLayerInput.java">ch/bfh/ti/gapa/process/interfaces/ProcessLayerInput.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  27
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.TimeFilter.java">ch/bfh/ti/gapa/process/filter/TimeFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.server.Server.java">ch/bfh/ti/gapa/integration/server/Server.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.model.CliInput.java">ch/bfh/ti/gapa/cli/config/model/CliInput.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.interfaces.ProcessLayerHandler.java">ch/bfh/ti/gapa/process/interfaces/ProcessLayerHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.model.GapaMessage.java">ch/bfh/ti/gapa/integration/model/GapaMessage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  61
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.ConfigFileReaderImpl.java">ch/bfh/ti/gapa/cli/config/reading/file/ConfigFileReaderImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  45
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.printer.InfoPrinter.java">ch/bfh/ti/gapa/cli/printer/InfoPrinter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.recording.OutboundRequestPatternGroup.java">ch/bfh/ti/gapa/process/recording/OutboundRequestPatternGroup.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.domain.recording.Recording.java">ch/bfh/ti/gapa/domain/recording/Recording.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.GenericRegexFilter.java">ch/bfh/ti/gapa/process/filter/GenericRegexFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.interfaces.ProcessLayer.java">ch/bfh/ti/gapa/process/interfaces/ProcessLayer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.parsing.CliInputParserImpl.java">ch/bfh/ti/gapa/cli/config/parsing/CliInputParserImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.file.json.JsonReaderImpl.java">ch/bfh/ti/gapa/cli/config/reading/file/json/JsonReaderImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.filter.Subset.java">ch/bfh/ti/gapa/process/filter/Subset.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.recording.RecordParser.java">ch/bfh/ti/gapa/process/recording/RecordParser.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  22
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.printer.GapaInfoPrinterImpl.java">ch/bfh/ti/gapa/cli/printer/GapaInfoPrinterImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  28
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.recording.ListenerHooks.java">ch/bfh/ti/gapa/process/recording/ListenerHooks.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  23
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.process.diagram.SequenceDiagramGenerator.java">ch/bfh/ti/gapa/process/diagram/SequenceDiagramGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  32
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReader.java">ch/bfh/ti/gapa/cli/config/reading/commandline/CommandLineArgumentsReader.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="https://brunm1.github.io/gapa/1.4-SNAPSHOT/checkstyle.html#ch.bfh.ti.gapa.integration.client.validation.GapaMessageJsonValidator.java">ch/bfh/ti/gapa/integration/client/validation/GapaMessageJsonValidator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+              </tr>
+                      </tbody>
+        </table>
+        
+      </description>
+    </item>
+  </channel>
+</rss>
+

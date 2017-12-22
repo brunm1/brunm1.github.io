@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>GapaInfoPrinterImpl xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../apidocs/ch/bfh/ti/gapa/cli/printer/GapaInfoPrinterImpl.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> ch.bfh.ti.gapa.cli.printer;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> ch.bfh.ti.gapa.cli.config.CliConfigOptions;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> ch.bfh.ti.gapa.cli.exception.GapaCommandLineExceptionType;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.json.JSONObject;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.json.JSONTokener;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.io.InputStream;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.io.PrintWriter;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * Configures gapa specific parameters for the {@link InfoPrinterImpl}</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> * and adds the method {@link #printConfigSchema()} to print the</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <em class="jxr_javadoccomment"> * json schema used to validate config data.</em>
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../ch/bfh/ti/gapa/cli/printer/GapaInfoPrinterImpl.html">GapaInfoPrinterImpl</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../../../ch/bfh/ti/gapa/cli/printer/InfoPrinterImpl.html">InfoPrinterImpl</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../../ch/bfh/ti/gapa/cli/printer/GapaInfoPrinter.html">GapaInfoPrinter</a> {
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String CONFIG_SCHEMA_JSON_RESOURCE_PATH = <span class="jxr_string">"/config-schema.json"</span>;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> JSON_SCHEMA_INDENT_FACTOR = 2;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String APP_DESC = <span class="jxr_string">"Visualizes communication between services."</span> +System.lineSeparator()+
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>              <span class="jxr_string">"It connects to a communication gateway over websocket,"</span>+System.lineSeparator()+
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>              <span class="jxr_string">"receives communication data, filters it and outputs PlantUml."</span>+System.lineSeparator()+
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>              <span class="jxr_string">"Filters can be configured with a json config file."</span>;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String COMMAND = <span class="jxr_string">"java -jar /path/to/gapa.jar"</span>;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String APP_NAME = <span class="jxr_string">"Gapa"</span>;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../../ch/bfh/ti/gapa/cli/printer/GapaInfoPrinterImpl.html">GapaInfoPrinterImpl</a>(PrintWriter pw) {
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>          <strong class="jxr_keyword">super</strong>(<strong class="jxr_keyword">new</strong> <a href="../../../../../../ch/bfh/ti/gapa/cli/config/CliConfigOptions.html">CliConfigOptions</a>(), <strong class="jxr_keyword">new</strong> CliPrintOptions(), pw, APP_DESC, COMMAND, APP_NAME,
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>                  GapaCommandLineExceptionType.values(),
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>                  GapaInfoPrinterImpl.<strong class="jxr_keyword">class</strong>.getResourceAsStream(APP_PROPERTIES_RESOURCE_PATH));
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      }
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <em class="jxr_javadoccomment">     * Loads the json schema and prints it.</em>
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <em class="jxr_javadoccomment">     * @throws IOException if schema cannot be loaded</em>
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>      @Override
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> printConfigSchema() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>          <strong class="jxr_keyword">try</strong> (InputStream inputStream = GapaInfoPrinterImpl.<strong class="jxr_keyword">class</strong>.getResourceAsStream(CONFIG_SCHEMA_JSON_RESOURCE_PATH)) {
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              pw.println(<strong class="jxr_keyword">new</strong> JSONObject(<strong class="jxr_keyword">new</strong> JSONTokener(inputStream)).toString(JSON_SCHEMA_INDENT_FACTOR));
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>          }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>      }
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
+</body>
+</html>

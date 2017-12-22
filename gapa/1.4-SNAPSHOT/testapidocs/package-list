@@ -1,0 +1,10 @@
+ch.bfh.ti.gapa.cli
+ch.bfh.ti.gapa.cli.printer
+ch.bfh.ti.gapa.cli.stdin
+ch.bfh.ti.gapa.domain.recording
+ch.bfh.ti.gapa.playground
+ch.bfh.ti.gapa.process.diagram
+ch.bfh.ti.gapa.process.filter
+ch.bfh.ti.gapa.process.recording
+ch.bfh.ti.gapa.process.resources
+ch.bfh.ti.gapa.test

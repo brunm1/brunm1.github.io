@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListenerHooks.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.recording</a> &gt; <span class="el_source">ListenerHooks.java</span></div><h1>ListenerHooks.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.recording;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Pattern;
+
+<span class="nc" id="L10">public class ListenerHooks {</span>
+
+    public static void readJson(String listenerHooksJson) {
+<span class="fc" id="L13">        JSONObject jsonObject = new JSONObject(listenerHooksJson);</span>
+
+<span class="fc" id="L15">        System.out.println();</span>
+<span class="fc" id="L16">    }</span>
+
+    private class ListenerHook {
+<span class="nc" id="L19">        private Pattern urlPattern = null;</span>
+<span class="nc" id="L20">        private Pattern filter = null;</span>
+<span class="nc" id="L21">        private String destination = null;</span>
+<span class="nc" id="L22">        private List&lt;String&gt; methods = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L23">        private boolean fullUrl = false;</span>
+
+<span class="nc" id="L25">        public ListenerHook(JSONObject jsonObject) {</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            if(jsonObject.has(&quot;requesturl&quot;)) {</span>
+
+            }
+
+<span class="nc bnc" id="L30" title="All 2 branches missed.">            if(jsonObject.has(&quot;hook&quot;)) {</span>
+<span class="nc" id="L31">                JSONObject hook = jsonObject.getJSONObject(&quot;hook&quot;);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                if(hook.has(&quot;destination&quot;)) {</span>
+<span class="nc" id="L33">                    destination = hook.getString(&quot;destination&quot;);</span>
+                } else {
+                    //ToDo Throw exception? destination is required
+                }
+<span class="nc bnc" id="L37" title="All 2 branches missed.">                if(hook.has(&quot;methods&quot;)) {</span>
+<span class="nc" id="L38">                    List&lt;Object&gt; tempList = hook.getJSONArray(&quot;methods&quot;).toList();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                    for (int i = 0; i &lt; tempList.size(); i++) {</span>
+<span class="nc" id="L40">                        methods.add((String) tempList.get(i));</span>
+                    }
+                }
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                if(hook.has(&quot;filter&quot;)) {</span>
+<span class="nc" id="L45">                    filter = Pattern.compile(hook.getString(&quot;filter&quot;));</span>
+                }
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">                if(hook.has(&quot;fullUrl&quot;)) {</span>
+<span class="nc" id="L49">                    fullUrl = hook.getBoolean(&quot;fullUrl&quot;);</span>
+                }
+            }
+<span class="nc" id="L52">        }</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

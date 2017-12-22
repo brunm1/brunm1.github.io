@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InfoPrinterImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.printer</a> &gt; <span class="el_source">InfoPrinterImpl.java</span></div><h1>InfoPrinterImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.printer;
+
+import ch.bfh.ti.gapa.cli.exception.CommandLineException;
+import ch.bfh.ti.gapa.cli.exception.CommandLineExceptionType;
+import ch.bfh.ti.gapa.cli.exception.GapaCommandLineExceptionType;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
+/**
+ * Supplies methods to print out various data about
+ * the application.
+ */
+public class InfoPrinterImpl implements InfoPrinter {
+    private static final int WIDTH = 80;
+    private static final int LEFT_PAD = 1;
+    private static final int DESC_PAD = 3;
+    private static final String APPLICATION_VERSION_PROPERTY = &quot;application.version&quot;;
+    static final String APP_PROPERTIES_RESOURCE_PATH = &quot;/app.properties&quot;;
+
+    private Options configOptions;
+    private Options printOptions;
+    PrintWriter pw;
+    private String appDesc;
+    private String command;
+    private String appName;
+    private CommandLineExceptionType[] commandLineExceptionTypes;
+    private InputStream appPropertiesInputStream;
+
+    InfoPrinterImpl(Options configOptions, Options printOptions, PrintWriter pw,
+                    String appDesc, String command, String appName,
+                    CommandLineExceptionType[] commandLineExceptionTypes,
+<span class="fc" id="L39">                    InputStream appPropertiesInputStream) {</span>
+<span class="fc" id="L40">        this.configOptions = configOptions;</span>
+<span class="fc" id="L41">        this.printOptions = printOptions;</span>
+<span class="fc" id="L42">        this.pw = pw;</span>
+<span class="fc" id="L43">        this.appDesc = appDesc;</span>
+<span class="fc" id="L44">        this.command = command;</span>
+<span class="fc" id="L45">        this.appName = appName;</span>
+<span class="fc" id="L46">        this.commandLineExceptionTypes = commandLineExceptionTypes;</span>
+<span class="fc" id="L47">        this.appPropertiesInputStream = appPropertiesInputStream;</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Prints a description of the application, the command line options and the
+     * possible exit codes.
+     */
+    @Override
+    public void printHelp() {
+<span class="fc" id="L56">        pw.println(appDesc);</span>
+<span class="fc" id="L57">        pw.println();</span>
+<span class="fc" id="L58">        HelpFormatter helpFormatter = new HelpFormatter();</span>
+<span class="fc" id="L59">        helpFormatter.printHelp(pw, WIDTH,command,&quot;&quot;, this.printOptions,</span>
+                LEFT_PAD, DESC_PAD,&quot;&quot;, true);
+<span class="fc" id="L61">        pw.println();</span>
+<span class="fc" id="L62">        pw.println(&quot;or&quot;);</span>
+<span class="fc" id="L63">        pw.println();</span>
+<span class="fc" id="L64">        helpFormatter.printHelp(pw, WIDTH,command,&quot;&quot;, this.configOptions,</span>
+                LEFT_PAD,DESC_PAD,&quot;&quot;, true);
+<span class="fc" id="L66">        pw.println();</span>
+<span class="fc" id="L67">        pw.println(createCommandLineExceptionDoc());</span>
+<span class="fc" id="L68">    }</span>
+
+    private String createCommandLineExceptionDoc() {
+<span class="fc" id="L71">        return &quot;Possible exit codes:&quot;+System.lineSeparator()+</span>
+<span class="fc" id="L72">                &quot;0 - Normal termination.&quot;+System.lineSeparator()+</span>
+<span class="fc" id="L73">                Arrays.stream(commandLineExceptionTypes)</span>
+<span class="fc" id="L74">                .map(e-&gt;e.getCode()+&quot; - &quot;+e.getDesc()).collect(Collectors.joining(System.lineSeparator()));</span>
+    }
+
+    /**
+     * Prints out the version of the application.
+     * @throws IOException if version could not be read.
+     */
+    @Override
+    public void printVersion() throws IOException {
+<span class="fc" id="L83">        pw.println(appName+&quot; - &quot; + readVersion());</span>
+<span class="fc" id="L84">    }</span>
+
+    private String readVersion() throws IOException {
+<span class="fc" id="L87">        Properties p = new Properties();</span>
+<span class="fc" id="L88">        p.load(appPropertiesInputStream);</span>
+<span class="fc" id="L89">        return p.getProperty(APPLICATION_VERSION_PROPERTY);</span>
+    }
+
+    /**
+     * Prints the description of the {@link GapaCommandLineExceptionType} and the
+     * message of the cause.
+     * @param e An exception generated by the CLI module that wraps the underlying exception.
+     */
+    @Override
+    public void printCommandLineException(CommandLineException e) {
+<span class="fc" id="L99">        pw.println(e.getCommandLineExceptionType().getDesc()+&quot;. Cause: &quot; + e.getThrowable().getMessage());</span>
+<span class="fc" id="L100">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

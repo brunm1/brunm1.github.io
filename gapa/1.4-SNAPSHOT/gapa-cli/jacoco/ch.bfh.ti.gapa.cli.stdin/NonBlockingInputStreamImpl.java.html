@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NonBlockingInputStreamImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.stdin</a> &gt; <span class="el_source">NonBlockingInputStreamImpl.java</span></div><h1>NonBlockingInputStreamImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.stdin;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
+/**
+ * This implementation allows to read asynchronously/non-blocking from an {@link InputStream}.
+ * A new thread is started that checks every 20ms if a new line
+ * is ready to read. The read line is passed to {@link NonBlockingInputStreamHandler#onReadLine(String)}.
+ * The thread closes gracefully if {@link #close()} is called.
+ * Note that the implementation of the InputStream has to overwrite the {@link InputStream#available()} method.
+ *
+ * This class exists because a blocking {@link InputStream#read()} call never stops blocking
+ * if there is never input. This class allows to stop reading from an input stream even if there is no input.
+ */
+<span class="fc" id="L18">public class NonBlockingInputStreamImpl implements NonBlockingInputStream {</span>
+    private Thread thread;
+
+    public void start(InputStream in, NonBlockingInputStreamHandler nonBlockingInputStreamHandler) {
+<span class="fc" id="L22">        thread = new Thread(() -&gt; {</span>
+<span class="fc" id="L23">            InputStreamReader inputStreamReader = new InputStreamReader(in, Charset.forName(&quot;utf8&quot;));</span>
+<span class="fc" id="L24">            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);</span>
+            while (true) {
+                try {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">                    if (bufferedReader.ready()) {</span>
+<span class="fc" id="L28">                        String line = bufferedReader.readLine();</span>
+<span class="fc" id="L29">                        nonBlockingInputStreamHandler.onReadLine(line);</span>
+<span class="fc" id="L30">                    } else {</span>
+<span class="fc" id="L31">                        Thread.sleep(20);</span>
+                    }
+<span class="fc" id="L33">                } catch(InterruptedException e) {</span>
+                    //terminate thread normally
+<span class="fc" id="L35">                    break;</span>
+<span class="fc" id="L36">                } catch (Throwable t) {</span>
+                    //pass exception to handler
+<span class="fc" id="L38">                    nonBlockingInputStreamHandler.onException(t);</span>
+                    //no further attempts to read from the stream will be made
+<span class="fc" id="L40">                    break;</span>
+<span class="fc" id="L41">                }</span>
+            }
+<span class="fc" id="L43">        });</span>
+<span class="fc" id="L44">        thread.start();</span>
+<span class="fc" id="L45">    }</span>
+
+    /**
+     * Stops reading from {@link InputStream} and leads to termination of extra thread.
+     */
+    public void close() {
+<span class="fc" id="L51">       thread.interrupt();</span>
+<span class="fc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

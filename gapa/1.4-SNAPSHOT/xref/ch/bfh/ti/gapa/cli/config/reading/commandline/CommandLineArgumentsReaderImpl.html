@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>CommandLineArgumentsReaderImpl xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../../../apidocs/ch/bfh/ti/gapa/cli/config/reading/commandline/CommandLineArgumentsReaderImpl.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> ch.bfh.ti.gapa.cli.config.reading.commandline;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> ch.bfh.ti.gapa.cli.config.model.ConfigField;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> ch.bfh.ti.gapa.cli.config.model.CliInput;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.apache.commons.cli.CommandLine;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> java.util.function.Consumer;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> java.util.function.Supplier;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> java.util.logging.Level;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> java.util.logging.Logger;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <em class="jxr_javadoccomment"> * Reads configuration data from the command line arguments.</em>
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../../ch/bfh/ti/gapa/cli/config/reading/commandline/CommandLineArgumentsReaderImpl.html">CommandLineArgumentsReaderImpl</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../../../../ch/bfh/ti/gapa/cli/config/reading/commandline/CommandLineArgumentsReader.html">CommandLineArgumentsReader</a> {
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOGGER = Logger.getLogger(CommandLineArgumentsReaderImpl.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">     * Reads in remaining values from cli arguments.</em>
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">     * Overwrites values from loaded config files.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">     * Sets the default values if no value was set after reading cli arguments.</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">     * @param cliInput A {@link CliInput} instance. Configuration is read into this instance.</em>
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">     * @param commandLine An instance of type {@link CommandLine} which contains command line options.</em>
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> read(<a href="../../../../../../../../ch/bfh/ti/gapa/cli/config/model/CliInput.html">CliInput</a> cliInput, CommandLine commandLine) {
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>          overwrite(cliInput::setWebsocketUri, cliInput::getWebsocketUri, <span class="jxr_string">"w"</span>, commandLine, ConfigField.websocketUri);
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>          overwrite(cliInput::setServerName, cliInput::getServerName, <span class="jxr_string">"n"</span>, commandLine, ConfigField.serverName);
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>      }
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> overwrite(Consumer&lt;String&gt; setter, Supplier&lt;String&gt; getter, String option,
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>                             CommandLine commandLine, <a href="../../../../../../../../ch/bfh/ti/gapa/cli/config/model/ConfigField.html">ConfigField</a> configField){
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>          String oldValue = getter.get();
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>          <strong class="jxr_keyword">if</strong>(commandLine.hasOption(option)) {
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>              String newValue = commandLine.getOptionValue(option);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>              <strong class="jxr_keyword">if</strong>(oldValue != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>                  LOGGER.log(Level.CONFIG, <span class="jxr_string">"CLI argument overwrites config field "</span> + configField.name() +<span class="jxr_string">". "</span> +
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>                          <span class="jxr_string">"Old: "</span>+ oldValue + <span class="jxr_string">" .New "</span> + newValue);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              }
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              setter.accept(newValue);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>          } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>              <strong class="jxr_keyword">if</strong>(oldValue == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>                  <em class="jxr_comment">//apply default value</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>                  setter.accept(configField.getDefaultValue());
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>              }
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>          }
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>      }
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2017. All rights reserved.</div>
+</body>
+</html>

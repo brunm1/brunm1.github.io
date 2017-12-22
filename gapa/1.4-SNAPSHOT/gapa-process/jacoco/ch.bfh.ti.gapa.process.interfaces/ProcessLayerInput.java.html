@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProcessLayerInput.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.interfaces</a> &gt; <span class="el_source">ProcessLayerInput.java</span></div><h1>ProcessLayerInput.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.interfaces;
+
+import org.json.JSONArray;
+
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
+
+public class ProcessLayerInput {
+    private URI websocketUri;
+    private JSONArray filters;
+    private String serverName;
+
+    /**
+     * Sets input defaults
+     */
+<span class="nc" id="L19">    public ProcessLayerInput(){</span>
+        try {
+<span class="nc" id="L21">            websocketUri = new URI(&quot;http://localhost:7012&quot;);</span>
+<span class="nc" id="L22">        } catch (URISyntaxException e) {</span>
+<span class="nc" id="L23">            e.printStackTrace();</span>
+<span class="nc" id="L24">        }</span>
+<span class="nc" id="L25">        serverName = &quot;gateleen&quot;;</span>
+<span class="nc" id="L26">    }</span>
+
+    public URI getWebsocketUri() {
+<span class="nc" id="L29">        return websocketUri;</span>
+    }
+
+    public void setWebsocketUri(URI websocketUri) {
+<span class="nc" id="L33">        this.websocketUri = websocketUri;</span>
+<span class="nc" id="L34">    }</span>
+
+    public JSONArray getFilters() {
+<span class="nc" id="L37">        return filters;</span>
+    }
+
+    public void setFilters(JSONArray filters) {
+<span class="nc" id="L41">        this.filters = filters;</span>
+<span class="nc" id="L42">    }</span>
+
+    public String getServerName() {
+<span class="nc" id="L45">        return serverName;</span>
+    }
+
+    public void setServerName(String serverName) {
+<span class="nc" id="L49">        this.serverName = serverName;</span>
+<span class="nc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

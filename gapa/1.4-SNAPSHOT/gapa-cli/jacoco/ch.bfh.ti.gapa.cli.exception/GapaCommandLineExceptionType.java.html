@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GapaCommandLineExceptionType.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.exception</a> &gt; <span class="el_source">GapaCommandLineExceptionType.java</span></div><h1>GapaCommandLineExceptionType.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.exception;
+
+/**
+ * Defines exit codes with descriptions.
+ * If an exception happens in the cli application, the
+ * exception is wrapped and one of the following {@link GapaCommandLineExceptionType} is added.
+ */
+<span class="pc" id="L8">public enum GapaCommandLineExceptionType implements CommandLineExceptionType {</span>
+<span class="fc" id="L9">    INVALID_COMMAND_USAGE(5, &quot;Invalid command usage.&quot;),</span>
+<span class="fc" id="L10">    UNRECOGNIZED_ARGUMENTS(6, &quot;Could not recognize some arguments.&quot;),</span>
+<span class="fc" id="L11">    PROCESS_LOGIC_FAILED(7, &quot;Exception raised in process logic.&quot;),</span>
+<span class="fc" id="L12">    CONFIG_PARSING_FAILED(12, &quot;Could not parse configuration values.&quot;),</span>
+<span class="fc" id="L13">    COMMAND_LINE_CONFIG_READING_FAILED(13, &quot;Could not read configuration from command line arguments.&quot;),</span>
+<span class="fc" id="L14">    PRINT_VERSION_FAILED(14, &quot;Could not print version.&quot;),</span>
+<span class="fc" id="L15">    PRINT_CONFIG_SCHEMA_FAILED(15, &quot;Could not print config schema.&quot;),</span>
+<span class="fc" id="L16">    CONFIG_FILE_READING_FAILED(16, &quot;Failed to load config file&quot;);</span>
+
+    private int code;
+    private String desc;
+
+<span class="fc" id="L21">    GapaCommandLineExceptionType(int code, String desc) {</span>
+<span class="fc" id="L22">        this.code = code;</span>
+<span class="fc" id="L23">        this.desc = desc;</span>
+<span class="fc" id="L24">    }</span>
+
+    @Override
+    public int getCode() {
+<span class="fc" id="L28">        return code;</span>
+    }
+
+    @Override
+    public String getDesc() {
+<span class="nc" id="L33">        return desc;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,8 @@
+ch.bfh.ti.gapa.integration.client
+ch.bfh.ti.gapa.integration.client.converter
+ch.bfh.ti.gapa.integration.client.socket
+ch.bfh.ti.gapa.integration.client.validation
+ch.bfh.ti.gapa.integration.converter
+ch.bfh.ti.gapa.integration.model
+ch.bfh.ti.gapa.integration.server
+ch.bfh.ti.gapa.integration.server.converter

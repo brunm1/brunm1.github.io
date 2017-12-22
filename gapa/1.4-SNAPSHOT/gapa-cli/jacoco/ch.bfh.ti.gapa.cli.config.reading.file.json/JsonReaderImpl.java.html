@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonReaderImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.config.reading.file.json</a> &gt; <span class="el_source">JsonReaderImpl.java</span></div><h1>JsonReaderImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.config.reading.file.json;
+
+import ch.bfh.ti.gapa.cli.config.model.ConfigField;
+import ch.bfh.ti.gapa.cli.config.model.CliInput;
+import org.json.JSONObject;
+
+/**
+ * Reads the data from a json object into
+ * an {@link CliInput} instance.
+ */
+<span class="nc" id="L11">public class JsonReaderImpl implements JsonReader {</span>
+    /**
+     * Creates an instance of {@link CliInput} and copies data from a {@link JSONObject} to this instance.
+     * The websocketUri and serverName are read as string.
+     * The filters are read as {@link org.json.JSONArray}.
+     * All fields are optional.
+     */
+    public void read(CliInput cliInput, JSONObject jsonObject) {
+<span class="nc" id="L19">        cliInput.setWebsocketUri(jsonObject.optString(ConfigField.websocketUri.name(), null));</span>
+<span class="nc" id="L20">        cliInput.setFilters(jsonObject.optJSONArray(ConfigField.filters.name()));</span>
+<span class="nc" id="L21">        cliInput.setServerName(jsonObject.optString(ConfigField.serverName.name(), null));</span>
+<span class="nc" id="L22">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

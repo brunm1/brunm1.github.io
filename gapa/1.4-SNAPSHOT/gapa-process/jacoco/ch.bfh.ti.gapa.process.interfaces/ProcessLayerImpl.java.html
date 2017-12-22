@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProcessLayerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-process</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.process.interfaces</a> &gt; <span class="el_source">ProcessLayerImpl.java</span></div><h1>ProcessLayerImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.process.interfaces;
+
+import ch.bfh.ti.gapa.domain.recording.Record;
+import ch.bfh.ti.gapa.integration.client.converter.JsonToGapaMessageConverter;
+import ch.bfh.ti.gapa.integration.client.socket.GapaWebSocketClient;
+import ch.bfh.ti.gapa.integration.client.socket.GapaWebSocketClientHandler;
+import ch.bfh.ti.gapa.integration.client.socket.StringReceiver;
+import ch.bfh.ti.gapa.integration.client.validation.GapaMessageJsonValidator;
+import ch.bfh.ti.gapa.integration.client.validation.JsonReceiver;
+import ch.bfh.ti.gapa.integration.model.GapaMessage;
+import ch.bfh.ti.gapa.process.AsyncTaskHandler;
+import ch.bfh.ti.gapa.process.diagram.SequenceDiagramGenerator;
+import ch.bfh.ti.gapa.process.filter.FilterConverter;
+import ch.bfh.ti.gapa.process.recording.GapaMessageRecorder;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+<span class="nc" id="L24">public class ProcessLayerImpl implements ProcessLayer{</span>
+<span class="nc" id="L25">    private static final Logger LOGGER = Logger.getLogger(ProcessLayerImpl.class.getName());</span>
+
+    private ProcessLayerInput processLayerInput;
+    private GapaMessageRecorder gapaMessageRecorder;
+    private GapaWebSocketClient gapaWebSocketClient;
+    private AsyncTaskHandler&lt;String&gt; asyncHandler;
+
+    private List&lt;Record&gt; convertMessagesToRecords() {
+        //convert messages to domain model used by process logic
+<span class="nc" id="L34">        return gapaMessageRecorder.getGapaMessages().stream().map(gapaMessage -&gt; {</span>
+<span class="nc" id="L35">            Record record = new Record();</span>
+<span class="nc" id="L36">            record.setHttpMethod(gapaMessage.getMethod().name());</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            if (gapaMessage.getType() == GapaMessage.Type.inbound) {</span>
+<span class="nc" id="L38">                record.setRecipient(processLayerInput.getServerName());</span>
+<span class="nc" id="L39">                record.setSender(gapaMessage.getPeer());</span>
+            } else {
+<span class="nc" id="L41">                record.setSender(processLayerInput.getServerName());</span>
+<span class="nc" id="L42">                record.setRecipient(gapaMessage.getPeer());</span>
+            }
+<span class="nc" id="L44">            record.setTime(LocalDateTime.ofInstant(gapaMessage.getTimestamp(), ZoneOffset.UTC));</span>
+<span class="nc" id="L45">            record.setUrl(gapaMessage.getPath());</span>
+<span class="nc" id="L46">            return record;</span>
+<span class="nc" id="L47">        }).collect(Collectors.toList());</span>
+    }
+
+    private void generatePlantUml() {
+<span class="nc" id="L51">        List&lt;Record&gt; records = convertMessagesToRecords();</span>
+
+        //apply filters
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (processLayerInput.getFilters() != null) {</span>
+<span class="nc" id="L55">            List&lt;Predicate&lt;Record&gt;&gt; filters = FilterConverter.convert(processLayerInput.getFilters());</span>
+<span class="nc" id="L56">            Predicate&lt;Record&gt; theOneFilter = filters.stream().reduce(Predicate::and).orElse(x -&gt; true);</span>
+<span class="nc" id="L57">            records = records.stream().filter(theOneFilter).collect(Collectors.toList());</span>
+        }
+
+        //process records and output plantUml diagram
+<span class="nc" id="L61">        String plantUml = new SequenceDiagramGenerator().generatePlantUmlSequenceDiagramFromRecords(records);</span>
+<span class="nc" id="L62">        this.asyncHandler.onResult(plantUml);</span>
+<span class="nc" id="L63">    }</span>
+
+    @Override
+    public void stopRecording() {
+<span class="nc" id="L67">        gapaWebSocketClient.close();</span>
+<span class="nc" id="L68">    }</span>
+
+    @Override
+    public void run(ProcessLayerInput processLayerInput, AsyncTaskHandler&lt;String&gt; asyncHandler) {
+<span class="nc" id="L72">        this.processLayerInput = processLayerInput;</span>
+<span class="nc" id="L73">        this.asyncHandler = asyncHandler;</span>
+
+<span class="nc" id="L75">        gapaMessageRecorder = new GapaMessageRecorder();</span>
+<span class="nc" id="L76">        JsonReceiver jsonReceiver = new JsonToGapaMessageConverter(gapaMessageRecorder);</span>
+<span class="nc" id="L77">        StringReceiver stringReceiver = new GapaMessageJsonValidator(jsonReceiver);</span>
+<span class="nc" id="L78">        GapaWebSocketClientHandler gapaWebSocketClientHandler = new GapaWebSocketClientHandler() {</span>
+            @Override
+            public void onError(Exception ex) {
+<span class="nc" id="L81">                asyncHandler.onError(ex);</span>
+<span class="nc" id="L82">            }</span>
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if(code == 1006) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                    LOGGER.warning(&quot;Connection closed abnormally by &quot; + ( remote ? &quot;remote peer&quot; : &quot;us&quot; ) + &quot;. Code: &quot; + code + &quot; Reason: &quot; + reason );</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">                } else if(code == 1000) {</span>
+<span class="nc" id="L89">                    LOGGER.log(Level.FINE,&quot;Connection closed normally.&quot;);</span>
+                } else {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                    LOGGER.warning(&quot;Unknown connection closing by &quot; + ( remote ? &quot;remote peer&quot; : &quot;us&quot; ) + &quot;. Code: &quot; + code + &quot; Reason: &quot; + reason );</span>
+                }
+<span class="nc" id="L93">                generatePlantUml();</span>
+<span class="nc" id="L94">            }</span>
+        };
+<span class="nc" id="L96">        gapaWebSocketClient = new GapaWebSocketClient(processLayerInput.getWebsocketUri(), stringReceiver, gapaWebSocketClientHandler);</span>
+<span class="nc" id="L97">        gapaWebSocketClient.connect();</span>
+<span class="nc" id="L98">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

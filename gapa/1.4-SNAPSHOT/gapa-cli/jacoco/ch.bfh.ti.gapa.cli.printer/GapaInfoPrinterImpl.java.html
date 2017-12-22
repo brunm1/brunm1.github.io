@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GapaInfoPrinterImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli.printer</a> &gt; <span class="el_source">GapaInfoPrinterImpl.java</span></div><h1>GapaInfoPrinterImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli.printer;
+
+import ch.bfh.ti.gapa.cli.config.CliConfigOptions;
+import ch.bfh.ti.gapa.cli.exception.GapaCommandLineExceptionType;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+
+/**
+ * Configures gapa specific parameters for the {@link InfoPrinterImpl}
+ * and adds the method {@link #printConfigSchema()} to print the
+ * json schema used to validate config data.
+ */
+public class GapaInfoPrinterImpl extends InfoPrinterImpl implements GapaInfoPrinter {
+    private static final String CONFIG_SCHEMA_JSON_RESOURCE_PATH = &quot;/config-schema.json&quot;;
+    private static final int JSON_SCHEMA_INDENT_FACTOR = 2;
+<span class="fc" id="L20">    private static final String APP_DESC = &quot;Visualizes communication between services.&quot; +System.lineSeparator()+</span>
+<span class="fc" id="L21">            &quot;It connects to a communication gateway over websocket,&quot;+System.lineSeparator()+</span>
+<span class="fc" id="L22">            &quot;receives communication data, filters it and outputs PlantUml.&quot;+System.lineSeparator()+</span>
+            &quot;Filters can be configured with a json config file.&quot;;
+    private static final String COMMAND = &quot;java -jar /path/to/gapa.jar&quot;;
+    private static final String APP_NAME = &quot;Gapa&quot;;
+
+    public GapaInfoPrinterImpl(PrintWriter pw) {
+<span class="fc" id="L28">        super(new CliConfigOptions(), new CliPrintOptions(), pw, APP_DESC, COMMAND, APP_NAME,</span>
+<span class="fc" id="L29">                GapaCommandLineExceptionType.values(),</span>
+<span class="fc" id="L30">                GapaInfoPrinterImpl.class.getResourceAsStream(APP_PROPERTIES_RESOURCE_PATH));</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Loads the json schema and prints it.
+     * @throws IOException if schema cannot be loaded
+     */
+    @Override
+    public void printConfigSchema() throws IOException {
+<span class="pc" id="L39">        try (InputStream inputStream = GapaInfoPrinterImpl.class.getResourceAsStream(CONFIG_SCHEMA_JSON_RESOURCE_PATH)) {</span>
+<span class="fc" id="L40">            pw.println(new JSONObject(new JSONTokener(inputStream)).toString(JSON_SCHEMA_INDENT_FACTOR));</span>
+<span class="pc bpc" id="L41" title="6 of 8 branches missed.">        }</span>
+<span class="fc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

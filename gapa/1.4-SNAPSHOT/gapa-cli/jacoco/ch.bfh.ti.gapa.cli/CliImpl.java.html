@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CliImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gapa-cli</a> &gt; <a href="index.source.html" class="el_package">ch.bfh.ti.gapa.cli</a> &gt; <span class="el_source">CliImpl.java</span></div><h1>CliImpl.java</h1><pre class="source lang-java linenums">package ch.bfh.ti.gapa.cli;
+
+import ch.bfh.ti.gapa.cli.config.CliConfigOptions;
+import ch.bfh.ti.gapa.cli.config.model.CliInput;
+import ch.bfh.ti.gapa.cli.config.parsing.CliInputParser;
+import ch.bfh.ti.gapa.cli.config.parsing.CliInputParserImpl;
+import ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReader;
+import ch.bfh.ti.gapa.cli.config.reading.commandline.CommandLineArgumentsReaderImpl;
+import ch.bfh.ti.gapa.cli.config.reading.file.ConfigFileReader;
+import ch.bfh.ti.gapa.cli.config.reading.file.ConfigFileReaderImpl;
+import ch.bfh.ti.gapa.cli.exception.CommandLineException;
+import ch.bfh.ti.gapa.cli.exception.GapaCommandLineExceptionType;
+import ch.bfh.ti.gapa.cli.log.SlimFormatter;
+import ch.bfh.ti.gapa.cli.printer.*;
+import ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStream;
+import ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStreamHandler;
+import ch.bfh.ti.gapa.cli.stdin.NonBlockingInputStreamImpl;
+import ch.bfh.ti.gapa.process.SynchronizedTask;
+import ch.bfh.ti.gapa.process.interfaces.ProcessLayer;
+import ch.bfh.ti.gapa.process.interfaces.ProcessLayerImpl;
+import ch.bfh.ti.gapa.process.interfaces.ProcessLayerInput;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.ParseException;
+
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+/**
+ * Main entry point for the application.
+ * Parses command line arguments, loads configuration data and
+ * passes the configuration to the process layer.
+ */
+public class CliImpl implements Cli{
+    /**
+     * Runs the CLI with the given arguments and exits the application with an exit code.
+     * @param args Command line arguments
+     */
+    public static void main(String[] args) {
+        //configure custom log format
+<span class="nc" id="L45">        Logger.getGlobal().getParent().getHandlers()[0].setFormatter(new SlimFormatter());</span>
+
+        int exitCode;
+<span class="nc" id="L48">        try(PrintWriter printWriter = new PrintWriter(System.out, true)) {</span>
+<span class="nc" id="L49">            Cli cli = new CliImpl(</span>
+                    new ProcessLayerImpl(),
+                    new ConfigFileReaderImpl(),
+                    new CommandLineArgumentsReaderImpl(),
+                    new CliInputParserImpl(),
+                    new GapaInfoPrinterImpl(printWriter),
+                    new CliConfigOptions(),
+                    new NonBlockingInputStreamImpl(),
+                    System.out::println, new CliPrintOptions()
+            );
+
+<span class="nc" id="L60">            exitCode = cli.run(args);</span>
+<span class="nc bnc" id="L61" title="All 8 branches missed.">        }</span>
+<span class="nc" id="L62">        System.exit(exitCode);</span>
+<span class="nc" id="L63">    }</span>
+
+    public ProcessLayer getProcessLayer() {
+<span class="nc" id="L66">        return processLayer;</span>
+    }
+
+<span class="fc" id="L69">    private static final Logger LOGGER = Logger.getLogger(CliImpl.class.getName());</span>
+
+    private ProcessLayer processLayer;
+    private ConfigFileReader configFileReader;
+    private CommandLineArgumentsReader commandLineArgumentsReader;
+    private CliInputParser cliInputParser;
+    private GapaInfoPrinter infoPrinter;
+    private CliConfigOptions cliConfigOptions;
+    private NonBlockingInputStream nonBlockingInputStream;
+    private Consumer&lt;String&gt; printer;
+    private CliPrintOptions cliPrintOptions;
+
+    /**
+     * @param processLayer read config data is passed to the process layer
+     * @param configFileReader reads the config file
+     * @param commandLineArgumentsReader reads configuration from command line arguments
+     * @param cliInputParser parses read config data
+     * @param infoPrinter prints data
+     * @param cliConfigOptions contains allowed command line options for configuration
+     * @param nonBlockingInputStream used to request input from the user
+     * @param cliPrintOptions command line options to print information about the application
+     * @param printer that takes the resulting plantUml
+     */
+    public CliImpl(ProcessLayer processLayer, ConfigFileReader configFileReader,
+                   CommandLineArgumentsReader commandLineArgumentsReader,
+                   CliInputParser cliInputParser, GapaInfoPrinter infoPrinter,
+<span class="fc" id="L95">                   CliConfigOptions cliConfigOptions, NonBlockingInputStream nonBlockingInputStream, Consumer&lt;String&gt; printer, CliPrintOptions cliPrintOptions) {</span>
+<span class="fc" id="L96">        this.processLayer = processLayer;</span>
+<span class="fc" id="L97">        this.configFileReader = configFileReader;</span>
+<span class="fc" id="L98">        this.commandLineArgumentsReader = commandLineArgumentsReader;</span>
+<span class="fc" id="L99">        this.cliInputParser = cliInputParser;</span>
+<span class="fc" id="L100">        this.infoPrinter = infoPrinter;</span>
+<span class="fc" id="L101">        this.cliConfigOptions = cliConfigOptions;</span>
+<span class="fc" id="L102">        this.nonBlockingInputStream = nonBlockingInputStream;</span>
+<span class="fc" id="L103">        this.printer = printer;</span>
+<span class="fc" id="L104">        this.cliPrintOptions = cliPrintOptions;</span>
+<span class="fc" id="L105">    }</span>
+
+    private void throwOnUnrecognizedOptions(CommandLine commandLine) throws CommandLineException {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (commandLine.getArgs().length &gt; 0) {</span>
+<span class="fc" id="L109">            Exception e = new Exception(&quot;Unrecognized arguments: &quot; + commandLine.getArgList()</span>
+<span class="fc" id="L110">                    .stream().collect(Collectors.joining(&quot;, &quot;)));</span>
+<span class="fc" id="L111">            throw new CommandLineException(GapaCommandLineExceptionType.UNRECOGNIZED_ARGUMENTS, e);</span>
+        }
+<span class="fc" id="L113">    }</span>
+
+    /**
+     * Runs the logic on the given arguments.
+     * @param args command line arguments
+     * @return exit code
+     */
+    public int run(String[] args) {
+        try {
+            try {
+<span class="fc" id="L123">                DefaultParser defaultParser = new DefaultParser();</span>
+<span class="fc" id="L124">                CommandLine commandLine = defaultParser.parse(cliPrintOptions, args, true);</span>
+
+                // have they specified a print option?
+<span class="fc bfc" id="L127" title="All 2 branches covered.">                if (commandLine.getOptions().length &gt; 0) {</span>
+                   //print option specified
+<span class="fc" id="L129">                    throwOnUnrecognizedOptions(commandLine);</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">                    if (commandLine.hasOption(&quot;h&quot;)) {</span>
+<span class="fc" id="L132">                        infoPrinter.printHelp();</span>
+<span class="fc" id="L133">                        return 0;</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">                    } else if(commandLine.hasOption(&quot;v&quot;)) {</span>
+                        try {
+<span class="fc" id="L136">                            infoPrinter.printVersion();</span>
+<span class="fc" id="L137">                            return 0;</span>
+<span class="fc" id="L138">                        } catch (Throwable t) {</span>
+<span class="fc" id="L139">                            throw new CommandLineException(GapaCommandLineExceptionType.PRINT_VERSION_FAILED, t);</span>
+                        }
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">                    } else if(commandLine.hasOption(&quot;s&quot;)) {</span>
+                        try {
+<span class="fc" id="L143">                            infoPrinter.printConfigSchema();</span>
+<span class="fc" id="L144">                            return 0;</span>
+<span class="fc" id="L145">                        } catch (Throwable t) {</span>
+<span class="fc" id="L146">                            throw new CommandLineException(GapaCommandLineExceptionType.PRINT_CONFIG_SCHEMA_FAILED, t);</span>
+                        }
+                    }
+                } else {
+                    // Try to parse conig options
+<span class="fc" id="L151">                    commandLine = defaultParser.parse(cliConfigOptions, args);</span>
+<span class="fc" id="L152">                    throwOnUnrecognizedOptions(commandLine);</span>
+
+                    //The CliInput instance stores all configuration that is read from the config file
+                    // and the command line arguments.
+<span class="fc" id="L156">                    CliInput cliInput = new CliInput();</span>
+
+                    //if c option is given, read config file at given path.
+                    //Otherwise, read config.json in same directory as jar
+                    try {
+<span class="fc bfc" id="L161" title="All 2 branches covered.">                        if (commandLine.hasOption(&quot;c&quot;)) {</span>
+<span class="fc" id="L162">                            String configFilePathArg = commandLine.getOptionValue(&quot;c&quot;);</span>
+<span class="fc" id="L163">                            Path configFilePath = Paths.get(configFilePathArg);</span>
+<span class="fc" id="L164">                            configFileReader.readConfigFile(cliInput, configFilePath);</span>
+<span class="fc" id="L165">                        } else {</span>
+<span class="fc" id="L166">                            configFileReader.readConfigFile(cliInput);</span>
+                        }
+<span class="fc" id="L168">                    } catch(Throwable t) {</span>
+<span class="fc" id="L169">                        throw new CommandLineException(GapaCommandLineExceptionType.CONFIG_FILE_READING_FAILED, t);</span>
+<span class="fc" id="L170">                    }</span>
+
+                    try {
+<span class="fc" id="L173">                        commandLineArgumentsReader.read(cliInput, commandLine);</span>
+<span class="fc" id="L174">                    } catch (Throwable t) {</span>
+<span class="fc" id="L175">                        throw new CommandLineException(GapaCommandLineExceptionType.COMMAND_LINE_CONFIG_READING_FAILED, t);</span>
+<span class="fc" id="L176">                    }</span>
+
+<span class="fc" id="L178">                    ProcessLayerInput processLayerInput = new ProcessLayerInput();</span>
+                    try {
+<span class="fc" id="L180">                        cliInputParser.parse(cliInput, processLayerInput);</span>
+<span class="fc" id="L181">                    } catch (Throwable t) {</span>
+<span class="fc" id="L182">                        throw new CommandLineException(GapaCommandLineExceptionType.CONFIG_PARSING_FAILED, t);</span>
+<span class="fc" id="L183">                    }</span>
+
+                    try {
+<span class="fc" id="L186">                        String plantUml = syncProcessLayerStartRecording(processLayerInput);</span>
+<span class="fc" id="L187">                        printer.accept(plantUml);</span>
+<span class="fc" id="L188">                    } catch (Throwable t) {</span>
+<span class="fc" id="L189">                        throw new CommandLineException(GapaCommandLineExceptionType.PROCESS_LOGIC_FAILED, t);</span>
+<span class="fc" id="L190">                    }</span>
+                }
+<span class="fc" id="L192">            } catch (ParseException e) {</span>
+<span class="fc" id="L193">                throw new CommandLineException(GapaCommandLineExceptionType.INVALID_COMMAND_USAGE, e);</span>
+<span class="fc" id="L194">            }</span>
+<span class="fc" id="L195">        } catch (CommandLineException e) {</span>
+            //Print exception message and return exit code.
+<span class="fc" id="L197">            infoPrinter.printCommandLineException(e);</span>
+<span class="fc" id="L198">            return e.getCommandLineExceptionType().getCode();</span>
+<span class="fc" id="L199">        }</span>
+<span class="fc" id="L200">        return 0;</span>
+    }
+
+    private String syncProcessLayerStartRecording(ProcessLayerInput processLayerInput) throws Throwable {
+<span class="fc" id="L204">        SynchronizedTask&lt;String, ProcessLayerInput&gt; synchronizedTask = new SynchronizedTask&lt;&gt;(processLayer);</span>
+
+        //Listen to stdin when websocket connection was started
+        //This allows to stop recording when user pressed enter key
+<span class="fc" id="L208">        Runnable runAfter = () -&gt; nonBlockingInputStream.start(System.in, new NonBlockingInputStreamHandler() {</span>
+            @Override
+            public void onReadLine(String line) {
+<span class="fc" id="L211">                processLayer.stopRecording();</span>
+<span class="fc" id="L212">            }</span>
+
+            @Override
+            public void onException(Throwable t) {
+                //within the non blocking input stream or in the code called by onReadLine
+                //was an exception thrown. We stop the synchronized task immediately with the exception.
+<span class="fc" id="L218">                synchronizedTask.outsideExceptionInterrupts(t);</span>
+<span class="fc" id="L219">            }</span>
+        });
+
+<span class="fc" id="L222">        return synchronizedTask.run(processLayerInput, runAfter);</span>
+    }
+
+    public void setProcessLayer(ProcessLayer processLayer) {
+<span class="fc" id="L226">        this.processLayer = processLayer;</span>
+<span class="fc" id="L227">    }</span>
+
+    public void setConfigFileReader(ConfigFileReader configFileReader) {
+<span class="fc" id="L230">        this.configFileReader = configFileReader;</span>
+<span class="fc" id="L231">    }</span>
+
+    public void setCommandLineArgumentsReader(CommandLineArgumentsReader commandLineArgumentsReader) {
+<span class="fc" id="L234">        this.commandLineArgumentsReader = commandLineArgumentsReader;</span>
+<span class="fc" id="L235">    }</span>
+
+    public void setCliInputParser(CliInputParser cliInputParser) {
+<span class="fc" id="L238">        this.cliInputParser = cliInputParser;</span>
+<span class="fc" id="L239">    }</span>
+
+    public void setInfoPrinter(GapaInfoPrinter infoPrinter) {
+<span class="fc" id="L242">        this.infoPrinter = infoPrinter;</span>
+<span class="fc" id="L243">    }</span>
+
+    public void setNonBlockingInputStream(NonBlockingInputStream nonBlockingInputStream) {
+<span class="fc" id="L246">        this.nonBlockingInputStream = nonBlockingInputStream;</span>
+<span class="fc" id="L247">    }</span>
+
+    public void setPrinter(Consumer&lt;String&gt; printer) {
+<span class="fc" id="L250">        this.printer = printer;</span>
+<span class="fc" id="L251">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
